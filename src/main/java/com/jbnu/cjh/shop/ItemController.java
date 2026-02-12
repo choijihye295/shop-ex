@@ -28,9 +28,11 @@ public class ItemController {
         //테이블에서 데이터 꺼내기 (JPA로 데이터 입출력)
         //리포지토리에서 DB입출력 함수 쓰기
         List<Item> result = itemRepository.findAll(); //list자료형으로 가져옴
-        System.out.println(result.get(0).price);
+        //System.out.println(result.get(0).price);
+        var a = new Item();
+        System.out.println(a.toString());
 
-        model.addAttribute("name", "이름");
+        model.addAttribute("items", result);
         return "list.html"; //이거 보내주세요
         //템플릿 엔진 > html을 그때그때 만들어사 사용가능
     }
