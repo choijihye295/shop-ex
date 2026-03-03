@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller //상품관련 API 여기다가 모으자
 @RequiredArgsConstructor
@@ -40,5 +41,20 @@ public class ItemController {
 
         itemRepository.save(item);
         return "redirect:/list";
+    }
+
+    //url파라미터로 상세페이지 만들기
+    @GetMapping("/detail/{id}")
+    String detail(@PathVariable Integer id, Model model) {
+        //db에서 id번 행의 데이터 꺼내기
+        Optional<Item> result = itemRepository.findById(id.longValue()); //integer > long 변환
+        //Optional로 가져다가 쓰기! 변수가 비어있을수도, Item type일수도 있음.
+        if(result.isPresent()){
+            model.addAttribute("data", result.get());
+            System.out.println(result.get()); //그냥 .get 쓰면 위험함. 값 없을때 에러남. > if로 체크하고 쓰자!
+            return "detail.html";
+        } else {
+            return "redirect:/list";
+        }
     }
 }
